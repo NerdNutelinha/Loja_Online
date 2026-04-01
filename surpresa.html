@@ -18,6 +18,7 @@
             transition: 0.8s;
         }
         .container { text-align: center; color: white; z-index: 10; }
+        
         #nome {
             font-size: 4rem;
             color: #ff1493;
@@ -26,10 +27,30 @@
             margin: 0;
             transition: 0.8s;
         }
+
+        .frase {
+            font-style: italic; 
+            margin-top: 20px; 
+            opacity: 0.9;
+            font-size: 1.2rem;
+            transition: 0.8s;
+        }
+
+        /* ESTILO DA ASSINATURA */
+        #assinatura {
+            margin-top: 50px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            transition: 0.8s;
+            color: #ff1493; /* Começa rosa também */
+        }
+
         @keyframes brilho {
             from { text-shadow: 0 0 10px currentColor; }
             to { text-shadow: 0 0 30px currentColor, 0 0 50px currentColor; }
         }
+
         .coracao {
             position: absolute;
             bottom: -50px;
@@ -44,13 +65,14 @@
 
     <div class="container">
         <h1 id="nome">Raquel</h1>
-        <p style="font-style: italic; margin-top: 20px; opacity: 0.8;">"Um nó de três cordas não se quebra facilmente."</p>
+        <p class="frase">"Um nó de três cordas não se quebra facilmente."</p>
+        
+        <div id="assinatura">Geovany & Raquel</div>
     </div>
 
     <script>
         let corAtual = 0;
         const cores = ["#ff1493", "#ff4500", "#ffd700", "#00bfff", "#f0f8ff", "#ff0000"];
-        // Rosa -> Laranja -> Amarelo -> Azul Claro -> Branco Gelo -> Vermelho
 
         function criarCoracao() {
             const c = document.createElement("div");
@@ -68,7 +90,14 @@
         function mudarCorLoop() {
             corAtual = (corAtual + 1) % cores.length;
             const novaCor = cores[corAtual];
+            
+            // Atualiza o nome dela
             document.getElementById('nome').style.color = novaCor;
+            
+            // ATUALIZA A ASSINATURA TAMBÉM!
+            document.getElementById('assinatura').style.color = novaCor;
+            
+            // Atualiza os corações
             document.querySelectorAll('.coracao').forEach(c => c.style.color = novaCor);
         }
     </script>
