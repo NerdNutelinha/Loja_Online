@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Exclusivo - RG</title>
+    <style>
+        body {
+            background-color: #050505;
+            color: #ff1493;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Linhas retas aleatórias no fundo */
+        .linha {
+            position: absolute;
+            background: rgba(255, 20, 147, 0.15);
+            z-index: 1;
+        }
+
+        .login-box {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border: 2px solid #ff1493;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff1493;
+            z-index: 10;
+            text-align: center;
+            width: 320px;
+            transition: 0.3s;
+        }
+
+        /* Animação de Vibrar */
+        @keyframes vibrar {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .erro-vibrar {
+            animation: vibrar 0.3s linear;
+            border-color: red !important;
+            box-shadow: 0 0 30px red !important;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #111;
+            border: 1px solid #ff1493;
+            color: white;
+            border-radius: 0; /* Linhas retas como você pediu */
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff1493;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            box-shadow: 0 0 30px #ff1493;
+            transform: scale(1.02);
+        }
+
+        #mensagem-erro {
+            color: #ff69b4;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="linha" style="width: 2px; height: 100vh; left: 15%; transform: rotate(45deg);"></div>
+    <div class="linha" style="width: 2px; height: 100vh; right: 20%; transform: rotate(-35deg);"></div>
+    <div class="linha" style="width: 100vw; height: 2px; top: 25%; transform: rotate(5deg);"></div>
+    <div class="linha" style="width: 100vw; height: 2px; bottom: 30%; transform: rotate(-10deg);"></div>
+
+    <div class="login-box" id="caixa-login">
+        <h2 style="letter-spacing: 3px;">SISTEMA RG</h2>
+        <p style="font-size: 0.8rem; opacity: 0.7;">ACESSO RESTRITO À RAQUEL</p>
+        
+        <input type="text" id="campo-senha" placeholder="Digite a frase secreta..." onkeypress="verificarEnter(event)">
+        
+        <button onclick="entrar()">ENTRAR NO SISTEMA</button>
+        
+        <div id="mensagem-erro">
+            Raquel, você errou, coloque: <br>
+            <span style="color: white; font-size: 1.1rem;">"Amo Muito Você"</span> <br>
+            e aperte enter meu amor ♥️💍♥️
+        </div>
+    </div>
+
+    <script>
+        function entrar() {
+            const senhaDigitada = document.getElementById('campo-senha').value;
+            const caixa = document.getElementById('caixa-login');
+            const mensagem = document.getElementById('mensagem-erro');
+
+            // A senha que ela tem que digitar (exatamente como você pediu)
+            if (senhaDigitada === "Amo Muito Você") {
+                // Se acertar, vai para o seu site dos corações
+                window.location.href = "https://nerdnutelinha.github.io/RG_13-04-26_Raquel/";
+            } else {
+                // Se errar: vibra e mostra a mensagem
+                caixa.classList.remove('erro-vibrar');
+                void caixa.offsetWidth; // Truque para reiniciar a animação
+                caixa.classList.add('erro-vibrar');
+                
+                mensagem.style.display = 'block';
+            }
+        }
+
+        // Função para ela poder apertar Enter no teclado
+        function verificarEnter(event) {
+            if (event.key === "Enter") {
+                entrar();
+            }
+        }
+    </script>
+</body>
+</html>
