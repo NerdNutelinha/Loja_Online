@@ -10,33 +10,31 @@
             color: #ff1493;
             font-family: 'Segoe UI', sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
-            text-align: center;
+            overflow-x: hidden;
         }
+        .timeline {
+            text-align: left;
+            margin-bottom: 30px;
+            font-size: 0.85rem;
+            border-left: 2px solid #ff1493;
+            padding-left: 15px;
+            max-width: 300px;
+        }
+        .data-item { margin-bottom: 10px; opacity: 0.9; }
+        .data-item b { color: white; display: block; }
+
         .login-box {
             background: rgba(0, 0, 0, 0.9);
-            padding: 40px;
+            padding: 30px;
             border: 2px solid #ff1493;
-            border-radius: 10px;
             box-shadow: 0 0 20px #ff1493;
-            width: 320px;
-            transition: 0.3s;
-        }
-        @keyframes vibrar {
-            0% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            50% { transform: translateX(10px); }
-            75% { transform: translateX(-10px); }
-            100% { transform: translateX(0); }
-        }
-        .erro-vibrar {
-            animation: vibrar 0.3s linear;
-            border-color: red !important;
-            box-shadow: 0 0 30px red !important;
+            width: 300px;
+            text-align: center;
         }
         input {
             width: 90%;
@@ -45,7 +43,6 @@
             background: #111;
             border: 1px solid #ff1493;
             color: white;
-            border-radius: 0;
             outline: none;
         }
         button {
@@ -56,52 +53,52 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
-            text-transform: uppercase;
+            margin-top: 10px;
         }
-        button:hover {
-            box-shadow: 0 0 30px #ff1493;
+        @keyframes vibrar {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            100% { transform: translateX(0); }
         }
-        #mensagem-erro {
-            color: #ff69b4;
-            font-size: 0.9rem;
-            margin-top: 15px;
-            display: none;
-            font-weight: bold;
-        }
+        .erro-vibrar { animation: vibrar 0.3s linear; border-color: orange !important; }
+        #mensagem-erro { color: #ff69b4; font-size: 0.8rem; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
+
+    <div class="timeline">
+        <div class="data-item"><b>18/02/2025</b> Quando nos conhecemos ❤️</div>
+        <div class="data-item"><b>20/05/2025</b> O dia que o mundo ficou mais bonito 🎂</div>
+        <div class="data-item"><b>01/01/2026</b> O marco da nossa mudança total ✨</div>
+        <div class="data-item"><b>13/02/2026</b> O início do nosso "Para Sempre" (Namoro) 💍</div>
+        <div class="data-item" style="color: #00bfff;"><b>14/11/2027</b> O dia do nosso primeiro abraço real ✈️</div>
+    </div>
+
     <div class="login-box" id="caixa-login">
-        <h2>SISTEMA RG</h2>
-        <p style="font-size: 0.8rem; opacity: 0.7;">ACESSO RESTRITO À RAQUEL</p>
+        <h3>SISTEMA RG</h3>
         <input type="text" id="campo-senha" placeholder="Frase secreta..." onkeypress="verificarEnter(event)">
-        <button onclick="entrar()">ENTRAR NO SISTEMA</button>
+        <button onclick="entrar()">ENTRAR</button>
         <div id="mensagem-erro">
             Raquel, você errou, coloque: <br>
-            <span style="color: white; font-size: 1.1rem;">"Amo Muito Você"</span> <br>
+            <span style="color: white;">"Amo Muito Você"</span> <br>
             e aperte enter meu amor ♥️💍♥️
         </div>
     </div>
+
     <script>
         function entrar() {
-            const senhaDigitada = document.getElementById('campo-senha').value;
-            const caixa = document.getElementById('caixa-login');
-            const mensagem = document.getElementById('mensagem-erro');
-            if (senhaDigitada === "Amo Muito Você") {
-                // REDIRECIONA PARA A PÁGINA PRINCIPAL
-                // Vamos usar um nome diferente para o arquivo principal
-                window.location.href = "surpresa.html"; 
+            const senha = document.getElementById('campo-senha').value;
+            if (senha === "Amo Muito Você") {
+                window.location.href = "surpresa.html";
             } else {
-                caixa.classList.remove('erro-vibrar');
-                void caixa.offsetWidth;
+                const caixa = document.getElementById('caixa-login');
                 caixa.classList.add('erro-vibrar');
-                mensagem.style.display = 'block';
+                document.getElementById('mensagem-erro').style.display = 'block';
+                setTimeout(() => caixa.classList.remove('erro-vibrar'), 300);
             }
         }
-        function verificarEnter(event) {
-            if (event.key === "Enter") { entrar(); }
-        }
+        function verificarEnter(e) { if (e.key === "Enter") entrar(); }
     </script>
 </body>
 </html>
