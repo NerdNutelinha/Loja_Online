@@ -15,28 +15,16 @@
             overflow: hidden;
             font-family: 'serif';
             cursor: pointer;
-            transition: background-color 0.8s ease;
+            transition: 0.8s;
         }
-        .container {
-            text-align: center;
-            color: white;
-            z-index: 10;
-        }
+        .container { text-align: center; color: white; z-index: 10; }
         #nome {
             font-size: 4rem;
-            color: #ff1493; /* Começa Rosa Choque */
-            text-shadow: 0 0 20px #ff1493;
+            color: #ff1493;
+            text-shadow: 0 0 20px currentColor;
             animation: brilho 1.5s infinite alternate;
             margin: 0;
-            transition: color 0.8s ease, text-shadow 0.8s ease;
-        }
-        .frase {
-            font-style: italic;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            opacity: 0.8;
-            padding: 0 20px;
-            transition: color 0.8s ease;
+            transition: 0.8s;
         }
         @keyframes brilho {
             from { text-shadow: 0 0 10px currentColor; }
@@ -45,66 +33,43 @@
         .coracao {
             position: absolute;
             bottom: -50px;
-            color: #ff1493; /* Começa Rosa */
             font-size: 25px;
-            user-select: none;
             animation: subir linear infinite;
             transition: color 0.8s ease;
         }
-        @keyframes subir {
-            to {
-                transform: translateY(-110vh) translateX(30px);
-                opacity: 0;
-            }
-        }
+        @keyframes subir { to { transform: translateY(-110vh) translateX(30px); opacity: 0; } }
     </style>
 </head>
 <body onclick="mudarCorLoop()">
 
     <div class="container">
         <h1 id="nome">Raquel</h1>
-        <p class="frase">"Um nó de três cordas não se quebra facilmente."</p>
-        <p id="assinatura" style="font-size: 0.8rem; margin-top: 40px; opacity: 0.5;">Geovany & Raquel</p>
+        <p style="font-style: italic; margin-top: 20px; opacity: 0.8;">"Um nó de três cordas não se quebra facilmente."</p>
     </div>
 
     <script>
-        let corAtual = 0; // Índice da cor atual
-        const cores = [
-            { primaria: "#ff1493" }, // Rosa Choque (Início)
-            { primaria: "#1e90ff" }, // Azul (DodgerBlue)
-            { primaria: "#f0f8ff" }, // Branco Gelo (AliceBlue)
-            { primaria: "#ff0000" } // Vermelho Vivo
-        ];
+        let corAtual = 0;
+        const cores = ["#ff1493", "#ff4500", "#ffd700", "#00bfff", "#f0f8ff", "#ff0000"];
+        // Rosa -> Laranja -> Amarelo -> Azul Claro -> Branco Gelo -> Vermelho
 
         function criarCoracao() {
             const c = document.createElement("div");
             c.classList.add("coracao");
-            // Define a cor do novo coração baseada no índice atual
-            c.style.color = cores[corAtual].primaria;
+            c.style.color = cores[corAtual];
             c.innerHTML = "❤";
             c.style.left = Math.random() * 100 + "vw";
             c.style.animationDuration = (Math.random() * 3 + 2) + "s";
-            c.style.opacity = Math.random();
             document.body.appendChild(c);
-            
-            setTimeout(() => { c.remove(); }, 5000);
+            setTimeout(() => c.remove(), 5000);
         }
 
         setInterval(criarCoracao, 250);
 
         function mudarCorLoop() {
-            // Avança para a próxima cor no loop (4 cores agora)
             corAtual = (corAtual + 1) % cores.length;
-            const novaCor = cores[corAtual].primaria;
-            
-            // Aplica as novas cores nos elementos principais
+            const novaCor = cores[corAtual];
             document.getElementById('nome').style.color = novaCor;
-            document.getElementById('nome').style.textShadow = `0 0 20px ${novaCor}`;
-            
-            // Muda a cor de todos os corações que já estão na tela
-            document.querySelectorAll('.coracao').forEach(c => {
-                c.style.color = novaCor;
-            });
+            document.querySelectorAll('.coracao').forEach(c => c.style.color = novaCor);
         }
     </script>
 </body>
