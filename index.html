@@ -3,113 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Para Minha Raquel</title>
+    <title>SISTEMA EXCLUSIVO - RG</title>
     <style>
         body {
-            background-color: #000;
+            background-color: #050505;
+            color: #ff1493;
+            font-family: 'Segoe UI', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             overflow: hidden;
-            font-family: 'serif';
-            cursor: pointer;
-            transition: background-color 0.5s ease;
-        }
-        .container {
             text-align: center;
+        }
+        .login-box {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border: 2px solid #ff1493;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #ff1493;
+            width: 320px;
+            transition: 0.3s;
+        }
+        @keyframes vibrar {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+        .erro-vibrar {
+            animation: vibrar 0.3s linear;
+            border-color: red !important;
+            box-shadow: 0 0 30px red !important;
+        }
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #111;
+            border: 1px solid #ff1493;
             color: white;
-            z-index: 10;
+            border-radius: 0;
+            outline: none;
         }
-        #nome {
-            font-size: 4rem;
-            color: #ff1493; /* Começa Rosa Choque */
-            text-shadow: 0 0 20px #ff1493;
-            animation: brilho 1.5s infinite alternate;
-            margin: 0;
-            transition: color 0.5s ease, text-shadow 0.5s ease;
-        }
-        .frase {
-            font-style: italic;
-            font-size: 1.2rem;
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #ff1493;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
             margin-top: 20px;
-            opacity: 0.8;
-            padding: 0 20px;
-            transition: color 0.5s ease;
+            text-transform: uppercase;
         }
-        @keyframes brilho {
-            from { text-shadow: 0 0 10px currentColor; }
-            to { text-shadow: 0 0 30px currentColor, 0 0 50px currentColor; }
+        button:hover {
+            box-shadow: 0 0 30px #ff1493;
         }
-        .coracao {
-            position: absolute;
-            bottom: -50px;
-            color: #ff1493; /* Começa Rosa */
-            font-size: 25px;
-            user-select: none;
-            animation: subir linear infinite;
-            transition: color 0.5s ease;
-        }
-        @keyframes subir {
-            to {
-                transform: translateY(-110vh) translateX(30px);
-                opacity: 0;
-            }
+        #mensagem-erro {
+            color: #ff69b4;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            display: none;
+            font-weight: bold;
         }
     </style>
 </head>
-<body onclick="mudarCorLoop()">
-
-    <div class="container">
-        <h1 id="nome">Raquel</h1>
-        <p class="frase">"Um nó de três cordas não se quebra facilmente."</p>
-        <p id="assinatura" style="font-size: 0.8rem; margin-top: 40px; opacity: 0.5;">Geovany & Raquel</p>
+<body>
+    <div class="login-box" id="caixa-login">
+        <h2>SISTEMA RG</h2>
+        <p style="font-size: 0.8rem; opacity: 0.7;">ACESSO RESTRITO À RAQUEL</p>
+        <input type="text" id="campo-senha" placeholder="Frase secreta..." onkeypress="verificarEnter(event)">
+        <button onclick="entrar()">ENTRAR NO SISTEMA</button>
+        <div id="mensagem-erro">
+            Raquel, você errou, coloque: <br>
+            <span style="color: white; font-size: 1.1rem;">"Amo Muito Você"</span> <br>
+            e aperte enter meu amor ♥️💍♥️
+        </div>
     </div>
-
     <script>
-        let corAtual = 0; // 0=Rosa, 1=Vermelho, 2=Laranja
-        const cores = [
-            { corPrimaria: "#ff1493", texto: "white", bg: "#000" }, // Rosa Choque (Original)
-            { corPrimaria: "#ff0000", texto: "white", bg: "#000" }, // Vermelho Vivo
-            { corPrimaria: "#ff8c00", texto: "white", bg: "#000" }, // Laranja Escuro
-            { corPrimaria: "#ff0000", texto: "white", bg: "#000" } // Vermelho (Volta pro Vermelho)
-        ];
-
-        function criarCoracao() {
-            const c = document.createElement("div");
-            c.classList.add("coracao");
-            // O novo coração já nasce com a cor do modo atual
-            c.style.color = cores[corAtual].corPrimaria;
-            c.innerHTML = "❤";
-            c.style.left = Math.random() * 100 + "vw";
-            c.style.animationDuration = (Math.random() * 3 + 2) + "s";
-            c.style.opacity = Math.random();
-            document.body.appendChild(c);
-            
-            setTimeout(() => { c.remove(); }, 5000);
+        function entrar() {
+            const senhaDigitada = document.getElementById('campo-senha').value;
+            const caixa = document.getElementById('caixa-login');
+            const mensagem = document.getElementById('mensagem-erro');
+            if (senhaDigitada === "Amo Muito Você") {
+                // REDIRECIONA PARA A PÁGINA PRINCIPAL
+                // Vamos usar um nome diferente para o arquivo principal
+                window.location.href = "surpresa.html"; 
+            } else {
+                caixa.classList.remove('erro-vibrar');
+                void caixa.offsetWidth;
+                caixa.classList.add('erro-vibrar');
+                mensagem.style.display = 'block';
+            }
         }
-
-        setInterval(criarCoracao, 250);
-
-        function mudarCorLoop() {
-            // Avança para a próxima cor no loop
-            corAtual = (corAtual + 1) % cores.length;
-            
-            // Aplica as novas cores nos elementos
-            const nome = document.getElementById('nome');
-            const corpo = document.body;
-            const frase = document.querySelector('.frase');
-            
-            nome.style.color = cores[corAtual].corPrimaria;
-            nome.style.textShadow = `0 0 20px ${cores[corAtual].corPrimaria}`;
-            frase.style.color = cores[corAtual].texto;
-            corpo.style.backgroundColor = cores[corAtual].bg;
-            
-            // Muda a cor de todos os corações que já estão na tela
-            document.querySelectorAll('.coracao').forEach(c => {
-                c.style.color = cores[corAtual].corPrimaria;
-            });
+        function verificarEnter(event) {
+            if (event.key === "Enter") { entrar(); }
         }
     </script>
 </body>
