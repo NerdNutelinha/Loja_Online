@@ -14,8 +14,8 @@
             margin: 0;
             overflow: hidden;
             font-family: 'serif';
-            transition: background-color 2s ease; /* Transição suave de fundo */
             cursor: pointer;
+            transition: background-color 0.5s ease;
         }
         .container {
             text-align: center;
@@ -28,7 +28,7 @@
             text-shadow: 0 0 20px #ff1493;
             animation: brilho 1.5s infinite alternate;
             margin: 0;
-            transition: color 2s ease, text-shadow 2s ease;
+            transition: color 0.5s ease, text-shadow 0.5s ease;
         }
         .frase {
             font-style: italic;
@@ -36,7 +36,7 @@
             margin-top: 20px;
             opacity: 0.8;
             padding: 0 20px;
-            transition: color 2s ease;
+            transition: color 0.5s ease;
         }
         @keyframes brilho {
             from { text-shadow: 0 0 10px currentColor; }
@@ -49,7 +49,7 @@
             font-size: 25px;
             user-select: none;
             animation: subir linear infinite;
-            transition: color 2s ease;
+            transition: color 0.5s ease;
         }
         @keyframes subir {
             to {
@@ -57,24 +57,9 @@
                 opacity: 0;
             }
         }
-
-        /* Classe que será ativada pelo clique/print */
-        .modo-print {
-            background-color: #fff !important; /* Fundo vira Branco */
-        }
-        .modo-print #nome {
-            color: #ff0000 !important; /* Nome vira Vermelho Vivo */
-            text-shadow: 0 0 20px #ff0000 !important;
-        }
-        .modo-print .frase {
-            color: #000 !important; /* Texto vira Preto para ler no branco */
-        }
-        .modo-print .coracao {
-            color: #ff0000 !important; /* Corações viram Vermelhos */
-        }
     </style>
 </head>
-<body onclick="ativarModoPrint()" id="corpo">
+<body onclick="mudarCorLoop()">
 
     <div class="container">
         <h1 id="nome">Raquel</h1>
@@ -83,15 +68,19 @@
     </div>
 
     <script>
-        let modoEspecial = false;
+        let corAtual = 0; // 0=Rosa, 1=Vermelho, 2=Laranja
+        const cores = [
+            { corPrimaria: "#ff1493", texto: "white", bg: "#000" }, // Rosa Choque (Original)
+            { corPrimaria: "#ff0000", texto: "white", bg: "#000" }, // Vermelho Vivo
+            { corPrimaria: "#ff8c00", texto: "white", bg: "#000" }, // Laranja Escuro
+            { corPrimaria: "#ff0000", texto: "white", bg: "#000" } // Vermelho (Volta pro Vermelho)
+        ];
 
         function criarCoracao() {
             const c = document.createElement("div");
             c.classList.add("coracao");
-            // Se o modo especial estiver ativo, o novo coração já nasce vermelho
-            if (modoEspecial) {
-                c.style.color = "#ff0000";
-            }
+            // O novo coração já nasce com a cor do modo atual
+            c.style.color = cores[corAtual].corPrimaria;
             c.innerHTML = "❤";
             c.style.left = Math.random() * 100 + "vw";
             c.style.animationDuration = (Math.random() * 3 + 2) + "s";
@@ -103,13 +92,24 @@
 
         setInterval(criarCoracao, 250);
 
-        function activarModoPrint() {
-            if (!modoEspecial) {
-                modoEspecial = true;
-                document.getElementById('corpo').classList.add('modo-print');
-                document.getElementById('assinatura').style.color = "#000";
-                document.getElementById('assinatura').style.opacity = "1";
-            }
+        function mudarCorLoop() {
+            // Avança para a próxima cor no loop
+            corAtual = (corAtual + 1) % cores.length;
+            
+            // Aplica as novas cores nos elementos
+            const nome = document.getElementById('nome');
+            const corpo = document.body;
+            const frase = document.querySelector('.frase');
+            
+            nome.style.color = cores[corAtual].corPrimaria;
+            nome.style.textShadow = `0 0 20px ${cores[corAtual].corPrimaria}`;
+            frase.style.color = cores[corAtual].texto;
+            corpo.style.backgroundColor = cores[corAtual].bg;
+            
+            // Muda a cor de todos os corações que já estão na tela
+            document.querySelectorAll('.coracao').forEach(c => {
+                c.style.color = cores[corAtual].corPrimaria;
+            });
         }
     </script>
 </body>
